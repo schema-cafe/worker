@@ -8,6 +8,9 @@ import (
 func main() {
 	_, err := getEnv("SCHEMA_CAFE_ORG_DIR")
 	checkError(err)
+
+	_, err = getEnv("PORT")
+	checkError(err)
 }
 
 func getEnv(key string) (string, error) {
