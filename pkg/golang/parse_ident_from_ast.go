@@ -12,7 +12,7 @@ func ParseIdentFromAST(pkgName string, ident *ast.Ident) (types.Identifier, erro
 		Name: name,
 	}
 	if !IsBuiltinType(name) {
-		id.Pkg = pkgName
+		id.Path = pkgName
 	}
 	return id, nil
 }

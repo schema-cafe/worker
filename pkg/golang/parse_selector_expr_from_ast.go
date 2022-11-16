@@ -15,7 +15,7 @@ func ParseSelectorExprFromAST(pkgName string, imports []*ast.ImportSpec, exp *as
 			return types.Identifier{}, err
 		}
 		return types.Identifier{
-			Pkg:  pkg,
+			Path: pkg,
 			Name: exp.Sel.Name,
 		}, nil
 	default:
