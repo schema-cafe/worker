@@ -9,6 +9,7 @@ import (
 
 	"github.com/schema-cafe/go-types"
 	"github.com/schema-cafe/worker/pkg/queries"
+	"github.com/schema-cafe/worker/pkg/web"
 )
 
 func main() {
@@ -32,6 +33,7 @@ func main() {
 func ServeAPI(app types.API, workdir, port string) error {
 	goTypesDir := filepath.Join(workdir, "go-types")
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		web.HandleCORS(w, r)
 		switch r.Method {
 		case "GET":
 			q, ok := app.Queries[r.URL.Path]
