@@ -49,6 +49,9 @@ func (r *TypesRepo) PackageName(path []string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	if len(path) == 0 {
+		return r.pkgName, nil
+	}
 	return filepath.Join(r.pkgName, filepath.Join(path[:len(path)-1]...)), nil
 }
 
