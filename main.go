@@ -8,7 +8,9 @@ import (
 	"path/filepath"
 
 	"github.com/schema-cafe/go-types"
+	"github.com/schema-cafe/worker/pkg/commands"
 	"github.com/schema-cafe/worker/pkg/queries"
+	"github.com/schema-cafe/worker/pkg/util"
 	"github.com/schema-cafe/worker/pkg/web"
 )
 
@@ -23,7 +25,16 @@ func main() {
 		Queries: map[string]types.QueryFunction{
 			"/": queries.GetNode,
 		},
-		Commands: map[string]types.CommandFunction{},
+		Commands: map[string]types.CommandFunction{
+			"/cmd/create-folder":         commands.CreateFolder,
+			"/cmd/move":                  commands.Move,
+			"/cmd/delete":                commands.Delete,
+			"/cmd/create-schema":         commands.CreateSchema,
+			"/cmd/add-schema-field":      commands.AddSchemaField,
+			"/cmd/rename-schema-field":   commands.RenameSchemaField,
+			"/cmd/set-schema-field-type": commands.SetSchemaFieldType,
+			"/cmd/delete-schema-field":   commands.DeleteSchemaField,
+		},
 	}
 
 	err = ServeAPI(app, workdir, port)
@@ -72,13 +83,19 @@ func HandleQuery(goTypesDir string, q types.QueryFunction, w http.ResponseWriter
 func HandleCommand(goTypesDir string, c types.CommandFunction, w http.ResponseWriter, r *http.Request) {
 	inputs := map[string]string{}
 	json.NewDecoder(r.Body).Decode(&inputs)
-	mutation, err := c(goTypesDir, inputs)
+	mutations, err := c(goTypesDir, inputs)
 	if err != nil {
 		fmt.Println(err)
+	} else {
+		err = util.ApplyMutations(goTypesDir, mutations)
+		if err != nil {
+			fmt.Println(err)
+			// TODO: Rollback any partial changes
+		}
 	}
 	json.NewEncoder(w).Encode(types.CommandResult{
-		Mutation: mutation,
-		Error:    err,
+		Mutations: mutations,
+		Error:     err,
 	})
 }
 
