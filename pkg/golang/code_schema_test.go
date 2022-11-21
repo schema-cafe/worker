@@ -4,16 +4,18 @@ import (
 	"testing"
 
 	"github.com/schema-cafe/go-types"
+	"github.com/schema-cafe/go-types/ast"
+	"github.com/schema-cafe/go-types/form"
 	"github.com/schema-cafe/worker/pkg/golang"
 )
 
 func TestCodeSchema(t *testing.T) {
 	s := types.Schema{
-		Fields: []types.Field{
+		Fields: []form.Field{
 			{
 				Name: "ID",
-				Type: types.Type{
-					BaseType: types.Identifier{
+				Type: ast.Type{
+					BaseType: ast.Identifier{
 						Path: "github.com/schema-cafe/go-types",
 						Name: "ID",
 					},
@@ -21,8 +23,8 @@ func TestCodeSchema(t *testing.T) {
 			},
 			{
 				Name: "Name",
-				Type: types.Type{
-					BaseType: types.Identifier{
+				Type: ast.Type{
+					BaseType: ast.Identifier{
 						Path: " ",
 						Name: "string",
 					},
@@ -30,8 +32,8 @@ func TestCodeSchema(t *testing.T) {
 			},
 			{
 				Name: "Age",
-				Type: types.Type{
-					BaseType: types.Identifier{
+				Type: ast.Type{
+					BaseType: ast.Identifier{
 						Path: "github.com/schema-cafe/go-types/people",
 						Name: "Age",
 					},

@@ -1,14 +1,14 @@
 package golang
 
 import (
-	"go/ast"
+	goast "go/ast"
 
-	"github.com/schema-cafe/go-types"
+	"github.com/schema-cafe/go-types/ast"
 )
 
-func ParseIdentFromAST(pkgName string, ident *ast.Ident) (types.Identifier, error) {
+func ParseIdentFromAST(pkgName string, ident *goast.Ident) (ast.Identifier, error) {
 	name := ident.Name
-	id := types.Identifier{
+	id := ast.Identifier{
 		Name: name,
 	}
 	if !IsBuiltinType(name) {

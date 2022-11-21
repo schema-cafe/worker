@@ -1,12 +1,13 @@
 package golang
 
 import (
-	"go/ast"
+	goast "go/ast"
 
 	"github.com/schema-cafe/go-types"
+	"github.com/schema-cafe/go-types/form"
 )
 
-func ParseSchemaFromAST(pkgName string, imports []*ast.ImportSpec, s *ast.StructType) (*types.Schema, error) {
+func ParseSchemaFromAST(pkgName string, imports []*goast.ImportSpec, s *goast.StructType) (*types.Schema, error) {
 	schema := types.Schema{}
 	for _, field := range s.Fields.List {
 		fieldType, err := ParseTypeFromAST(pkgName, imports, field.Type)
@@ -14,7 +15,7 @@ func ParseSchemaFromAST(pkgName string, imports []*ast.ImportSpec, s *ast.Struct
 			return nil, err
 		}
 		for _, name := range field.Names {
-			schema.Fields = append(schema.Fields, types.Field{
+			schema.Fields = append(schema.Fields, form.Field{
 				Name: name.Name,
 				Type: fieldType,
 			})
