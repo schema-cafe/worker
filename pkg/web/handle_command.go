@@ -9,14 +9,14 @@ import (
 	"github.com/schema-cafe/worker/pkg/util"
 )
 
-func HandleCommand(goTypesDir string, c types.CommandFunction, w http.ResponseWriter, r *http.Request) {
+func HandleCommand(workdir string, c types.CommandFunction, w http.ResponseWriter, r *http.Request) {
 	inputs := map[string]string{}
 	json.NewDecoder(r.Body).Decode(&inputs)
-	mutations, err := c(goTypesDir, inputs)
+	mutations, err := c(workdir, inputs)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		err = util.ApplyMutations(goTypesDir, mutations)
+		err = util.ApplyMutations(workdir, mutations)
 		if err != nil {
 			fmt.Println(err)
 			// TODO: Rollback any partial changes
