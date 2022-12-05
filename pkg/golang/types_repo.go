@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/schema-cafe/go-types"
+	"github.com/library-development/go-schemacafe"
 	"github.com/schema-cafe/go-types/filesystem"
 )
 
@@ -16,7 +16,7 @@ type TypesRepo struct {
 	pkgName string
 }
 
-func (r *TypesRepo) GetNode(path []string) (*filesystem.Node[types.Schema], error) {
+func (r *TypesRepo) GetNode(path []string) (*filesystem.Node[schemacafe.Schema], error) {
 	pkgName, err := r.PackageName(path)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (r *TypesRepo) GetNode(path []string) (*filesystem.Node[types.Schema], erro
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse schema: %w", err)
 		}
-		return &filesystem.Node[types.Schema]{
+		return &filesystem.Node[schemacafe.Schema]{
 			IsFolder: false,
 			Value:    s,
 		}, nil
@@ -37,7 +37,7 @@ func (r *TypesRepo) GetNode(path []string) (*filesystem.Node[types.Schema], erro
 		if err != nil {
 			return nil, err
 		}
-		return &filesystem.Node[types.Schema]{
+		return &filesystem.Node[schemacafe.Schema]{
 			IsFolder: true,
 			Folder:   folder,
 		}, nil

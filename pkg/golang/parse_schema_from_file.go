@@ -5,10 +5,11 @@ import (
 	"go/parser"
 	"go/token"
 
+	"github.com/library-development/go-schemacafe"
 	"github.com/schema-cafe/go-types"
 )
 
-func ParseSchemaFromFile(pkgName, gofilepath string) (*types.Schema, error) {
+func ParseSchemaFromFile(pkgName, gofilepath string) (*schemacafe.Schema, error) {
 	s := types.Schema{}
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, gofilepath, nil, parser.ParseComments)

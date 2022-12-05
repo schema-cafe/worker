@@ -4,19 +4,20 @@ import (
 	"fmt"
 	goast "go/ast"
 
+	"github.com/library-development/go-schemacafe"
 	"github.com/schema-cafe/go-types/ast"
 )
 
-func ParseTypeFromAST(pkgName string, imports []*goast.ImportSpec, t goast.Expr) (ast.Type, error) {
+func ParseTypeFromAST(pkgName string, imports []*goast.ImportSpec, t goast.Expr) (schemacafe.Type, error) {
 	switch t := t.(type) {
 	case *goast.Ident:
 		baseType, err := ParseIdentFromAST(pkgName, t)
-		return ast.Type{
+		return schemacafe.Type{
 			BaseType: baseType,
 		}, err
 	case *goast.SelectorExpr:
 		baseType, err := ParseSelectorExprFromAST(pkgName, imports, t)
-		return ast.Type{
+		return schemacafe.Type{
 			BaseType: baseType,
 		}, err
 	case *goast.ArrayType:

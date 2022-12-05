@@ -3,13 +3,13 @@ package golang
 import (
 	goast "go/ast"
 
-	"github.com/schema-cafe/go-types/ast"
+	"github.com/library-development/go-schemacafe"
 )
 
-func ParseIdentFromAST(pkgName string, ident *goast.Ident) (ast.Identifier, error) {
+func ParseIdentFromAST(pkgPath schemacafe.Path, ident *goast.Ident) (schemacafe.Identifier, error) {
 	name := ident.Name
-	id := ast.Identifier{
-		Name: name,
+	id := schemacafe.Identifier{
+		Path: schemacafe.Path{{pkgName}},
 	}
 	if !IsBuiltinType(name) {
 		id.Path = pkgName
